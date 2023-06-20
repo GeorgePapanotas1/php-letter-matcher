@@ -1,40 +1,39 @@
 class Main {
-  public function handle()
+
+  public static function convert(string $encodedText)
   {
 
-      $text = '20 5 19 20+4 15 13 5';
-
-      $this->info($this->numbersToLetters($text));
+      return self::numbersToLetters($encodedText);
 
   }
 
-  private function numbersToLetters(string $encodedText): string
+  private static function numbersToLetters(string $encodedText): string
   {
       return array_reduce(
-          $this->splitWords($encodedText),
-          fn (string $carry, string $encodedWord) => $carry .= $this->decodeWord($encodedWord)." ",
+          self::splitWords($encodedText),
+          fn (string $carry, string $encodedWord) => $carry .= self::decodeWord($encodedWord)." ",
           ''
       );
   }
 
-  private function decodeWord(string $encodedWord): string {
+  private static function decodeWord(string $encodedWord): string {
       return array_reduce(
-          $this->splitLetters($encodedWord),
-          fn (string $carry, string $number) => $carry .= $this->matchLetter($number),
+          self::splitLetters($encodedWord),
+          fn (string $carry, string $number) => $carry .= self::matchLetter($number),
           ''
       );
   }
 
-  private function splitWords(string $encodedText): array {
+  private static function splitWords(string $encodedText): array {
       return explode('+', $encodedText);
   }
 
-  private function splitLetters(string $encodedWord): array
+  private static function splitLetters(string $encodedWord): array
   {
       return explode(' ', $encodedWord);
   }
 
-  private function matchLetter(string $number): string
+  private static function matchLetter(string $number): string
   {
     return match ($number) {
         '1' => 'A',
